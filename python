@@ -1,0 +1,54 @@
+"""10.Write a program that expects any number of filenames as arguments, and indicates the mean number of bytes per 
+character in the content of each file """
+import sys
+
+
+def main():
+    # using sys.argv to create a list of the filenames or file paths entered after the name of the program
+    files = sys.argv[1:]
+
+    # if at least one argument was entered after the program name on the command line
+    # (i.e., if the length of the list of arguments is greater than zero),
+    # the program will try to read each argument as a file and compute the mean number of bytes per character in the content of each file.
+    # Otherwise, the else statement at the end of main() will execute and the user will be prompted to try running the program again and
+    # to enter at least one filename as an argument after the name of the program on the command line.
+
+    if len(files) > 0:
+
+        try:
+            for file in files:
+                # opening each file and creating an i/o stream file object for that file
+                file_object = open(file, 'r')
+
+                # file contents are read into memory as a string and assigned to the variable file_string
+                file_string = file_object.read()
+
+                # len() returns the number of characters in a string (here the file_string)
+                num_of_chars = len(file_string)
+
+                # file_string.encode() returns a bytestring and len returns the number of bytes in the bytestring
+                num_of_bytes = len(file_string.encode('utf-8'))
+
+                if num_of_chars != 0: # avoiding a DivisionByZero Error
+                    mean_bytes_per_char = num_of_bytes / num_of_chars
+                    print(f'For {file},the mean number of bytes per character is {mean_bytes_per_char:.2f}')
+
+
+                else:
+                    print("Error: The filename you entered is an empty file.")
+
+                file_object.close() # closing file object
+
+        except:
+                print("An error occurred.")
+
+    else:
+        print("In order for this program to work, you need to enter at least one filename")
+        print("in your working directory - or an absolute or relative path to a file -")
+        print("as an argument after the name of the program.")
+        print("Please try to run this program again by entering one or more filenames or file paths")
+        print("as arguments after the name of the program.")
+
+
+if __name__ == '__main__':
+    main()
